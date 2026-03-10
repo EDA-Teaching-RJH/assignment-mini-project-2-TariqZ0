@@ -79,3 +79,51 @@ class Book:
     def __str__(self):
         status = "Borrowed" if self.borrowed else "Available"
         return f"{self.title} by {self.author} ({self.genre}) - {status}"
+
+# -----------------------------
+# Ebook Class (inherits Book)
+# -----------------------------
+
+class EBook(Book):
+    """
+    Represents a digital book.
+    Inherits from the Book class.
+    """
+
+    def __init__(self, title, author, genre, file_size):
+        super().__init__(title, author, genre)
+
+        if file_size <= 0:
+            raise ValueError("Invalid file size")
+
+        self.file_size = file_size
+
+    def download(self):
+        """
+        Simulate downloading the ebook.
+        """
+        return f"Downloading '{self.title}' ({self.file_size}MB)..."
+
+    def __str__(self):
+        return f"{self.title} by {self.author} [{self.genre}] (EBook {self.file_size}MB)"
+
+
+# -----------------------------
+# Printed Book Class
+# -----------------------------
+
+class PrintedBook(Book):
+    """
+    Represents a physical printed book.
+    """
+
+    def __init__(self, title, author, genre, pages):
+        super().__init__(title, author, genre)
+
+        if pages <= 0:
+            raise ValueError("Invalid page number")
+
+        self.pages = pages
+
+    def __str__(self):
+        return f"{self.title} by {self.author} [{self.genre}] ({self.pages} pages)"
