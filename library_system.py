@@ -178,3 +178,66 @@ class Member:
 
     def __str__(self):
         return f"{self.name} ({self.email})"
+
+# -----------------------------
+# Library Class
+# -----------------------------
+
+class Library:
+    """
+    Represents the library itself.
+    It stores books and members and provides functions to manage them.
+    """
+
+    def __init__(self):
+
+        self.books = []
+        self.members = []
+
+    def add_book(self, book):
+        """
+        Add a book to the library collection.
+        """
+
+        self.books.append(book)
+
+    def register_member(self, member):
+        """
+        Register a new library member.
+        """
+
+        self.members.append(member)
+
+    def list_books(self):
+        """
+        Print all books in the library sorted alphabetically.
+        """
+
+        if not self.books:
+            print("No books in the library.")
+            return
+
+        for book in sorted(self.books, key=lambda b: b.title):
+            print(book)
+
+    def find_book(self, title):
+        """
+        Search for a book by title.
+        """
+
+        for book in self.books:
+            if book.title.lower() == title.lower():
+                return book
+
+        return None
+
+    def find_member(self, name):
+        """
+        Search for a member by name.
+        """
+
+        for member in self.members:
+            if member.name.lower() == name.lower():
+                return member
+
+        return None
