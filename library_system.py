@@ -127,3 +127,54 @@ class PrintedBook(Book):
 
     def __str__(self):
         return f"{self.title} by {self.author} [{self.genre}] ({self.pages} pages)"
+
+# -----------------------------
+# Member Class
+# -----------------------------
+
+class Member:
+    """
+    Represents a member of the library.
+    Members can borrow and return books.
+    """
+
+    def __init__(self, name, email):
+
+        if not name:
+            raise ValueError("Missing name")
+
+        # Regex email validation
+        pattern = r"^[\w\.-]+@[\w\.-]+\.\w+$"
+
+        if not re.match(pattern, email):
+            raise ValueError("Invalid email")
+
+        self.name = name
+        self.email = email
+
+        self.borrowed_books = []
+
+    def borrow_book(self, book):
+        """
+        Borrow a book from the library.
+        """
+
+        if book.borrowed:
+            raise ValueError("Book already borrowed")
+
+        book.borrow()
+        self.borrowed_books.append(book)
+
+    def return_book(self, book):
+        """
+        Return a book to the library.
+        """
+
+        if book not in self.borrowed_books:
+            raise ValueError("This member did not borrow this book")
+
+        book.return_book()
+        self.borrowed_books.remove(book)
+
+    def __str__(self):
+        return f"{self.name} ({self.email})"
