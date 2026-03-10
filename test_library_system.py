@@ -147,3 +147,50 @@ class TestPrintedBook:
         book = PrintedBook("World History", "Mark Johnson", "History", 400)
 
         assert isinstance(book, Book)
+
+# -----------------------------
+# Member class tests
+# -----------------------------
+
+class TestMember:
+
+    def test_create_member(self):
+        """Test creating a member."""
+
+        member = Member("Alice", "alice@email.com")
+
+        assert member.name == "Alice"
+        assert member.email == "alice@email.com"
+        assert member.borrowed_books == []
+
+
+    def test_invalid_email(self):
+        """Invalid email should raise ValueError."""
+
+        with pytest.raises(ValueError):
+            Member("Bob", "invalid-email")
+
+
+    def test_borrow_book(self):
+        """Member should be able to borrow a book."""
+
+        member = Member("Alice", "alice@email.com")
+        book = Book("Python Basics", "John Smith", "Technology")
+
+        member.borrow_book(book)
+
+        assert book.borrowed is True
+        assert book in member.borrowed_books
+
+
+    def test_return_book(self):
+        """Member should be able to return a borrowed book."""
+
+        member = Member("Alice", "alice@email.com")
+        book = Book("Python Basics", "John Smith", "Technology")
+
+        member.borrow_book(book)
+        member.return_book(book)
+
+        assert book.borrowed is False
+        assert book not in member.borrowed_books
