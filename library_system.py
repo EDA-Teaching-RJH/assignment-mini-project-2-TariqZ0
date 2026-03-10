@@ -241,3 +241,88 @@ class Library:
                 return member
 
         return None
+
+# -----------------------------
+# File I/O Functions
+# -----------------------------
+
+def save_books(library):
+    """
+    Save all books in the library to a CSV file.
+    """
+
+    with open("books.csv", "w", newline="") as file:
+        writer = csv.writer(file)
+
+        writer.writerow(["Type", "Title", "Author", "Genre", "Extra"])
+
+        for book in library.books:
+
+            if isinstance(book, EBook):
+                writer.writerow(["ebook", book.title, book.author, book.genre, book.file_size])
+
+            elif isinstance(book, PrintedBook):
+                writer.writerow(["printed", book.title, book.author, book.genre, book.pages])
+
+
+def load_books(library):
+    """
+    Load books from CSV file into the library.
+    """
+
+    if not os.path.exists("books.csv"):
+        return
+
+    with open("books.csv", "r") as file:
+        reader = csv.reader(file)
+
+        next(reader)
+
+        for row in reader:
+
+            book_type = row[0]
+            title = row[1]
+            author = row[2]
+            genre = row[3]
+
+            if book_type == "ebook":
+                file_size = int(row[4])
+                library.add_book(EBook(title, author, genre, file_size))
+
+            elif book_type == "printed":
+                pages = int(row[4])
+                library.add_book(PrintedBook(title, author, genre, pages))
+
+
+def save_members(library):
+    """
+    Save members to CSV.
+    """
+
+    with open("members.csv", "w", newline="") as file:
+        writer = csv.writer(file)
+
+        writer.writerow(["Name", "Email"])
+
+        for member in library.members:
+            writer.writerow([member.name, member.email])
+
+
+def load_members(library):
+    """
+    Load members from CSV.
+    """
+
+    if not os.path.exists("members.csv"):
+        return
+
+    with open("members.csv", "r") as file:
+        reader = csv.reader(file)
+
+        next(reader)
+
+        for row in reader:
+            name = row[0]
+            email = row[1]
+
+            library.register_member(Member(name, email))
