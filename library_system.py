@@ -369,3 +369,67 @@ def generate_demo_data(library):
         member = Member(name, email)
 
         library.register_member(member)
+
+# -----------------------------
+# Main Program
+# -----------------------------
+
+def main():
+
+    library = Library()
+
+    # load saved data
+    load_books(library)
+    load_members(library)
+
+    if len(sys.argv) < 2:
+        print("Usage: python3 library_system.py [add | list | demo]")
+        return
+
+    command = sys.argv[1].lower()
+
+    if command == "add":
+
+        title = input("Book title: ")
+        author = input("Author: ")
+        genre = input("Genre (Fiction, Science, History, Technology, Education): ")
+
+        book_type = input("Type (ebook/printed): ")
+
+        if book_type == "ebook":
+
+            size = int(input("File size (MB): "))
+            book = EBook(title, author, genre, size)
+
+        else:
+
+            pages = int(input("Number of pages: "))
+            book = PrintedBook(title, author, genre, pages)
+
+        library.add_book(book)
+
+        save_books(library)
+
+        print("Book added successfully.")
+
+    elif command == "list":
+
+        library.list_books()
+
+    elif command == "demo":
+
+        generate_demo_data(library)
+
+        print("\nDemo books in library:\n")
+
+        library.list_books()
+
+    else:
+
+        print("Unknown command.")
+
+
+# program entry point
+
+if __name__ == "__main__":
+    main()
