@@ -326,3 +326,46 @@ def load_members(library):
             email = row[1]
 
             library.register_member(Member(name, email))
+
+# -----------------------------
+# Fake Data Generator
+# -----------------------------
+
+def generate_demo_data(library):
+    """
+    Generate fake books and members using Faker.
+    This helps demonstrate the system without manually typing data.
+    """
+
+    fake = Faker()
+
+    genres = Book.VALID_GENRES
+
+    # create random books
+    for _ in range(5):
+
+        title = fake.sentence(nb_words=3)
+        author = fake.name()
+        genre = random.choice(genres)
+
+        if random.choice([True, False]):
+
+            pages = random.randint(100, 600)
+            book = PrintedBook(title, author, genre, pages)
+
+        else:
+
+            size = random.randint(1, 20)
+            book = EBook(title, author, genre, size)
+
+        library.add_book(book)
+
+    # create random members
+    for _ in range(3):
+
+        name = fake.first_name()
+        email = fake.email()
+
+        member = Member(name, email)
+
+        library.register_member(member)
