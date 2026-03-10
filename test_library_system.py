@@ -26,7 +26,6 @@ from library_system import (
     load_members
 )
 
-
 # -----------------------------
 # Base Book Class Tests
 # -----------------------------
@@ -68,7 +67,7 @@ class TestBook:
 
         book.borrow()
 
-        assert book.borrowed is True
+        assert book.borrowed is True 
 
 
     def test_return_book(self):
@@ -79,3 +78,72 @@ class TestBook:
         book.return_book()
 
         assert book.borrowed is False
+
+# -----------------------------
+# EBook class tests
+# -----------------------------
+
+class TestEBook:
+
+    def test_create_ebook(self):
+        """Test creating an ebook."""
+
+        ebook = EBook("AI Fundamentals", "Sarah Lee", "Technology", 5)
+
+        assert ebook.title == "AI Fundamentals"
+        assert ebook.author == "Sarah Lee"
+        assert ebook.genre == "Technology"
+        assert ebook.file_size == 5
+        assert ebook.borrowed is False
+
+
+    def test_ebook_string_output(self):
+        """Test ebook string representation."""
+
+        ebook = EBook("AI Fundamentals", "Sarah Lee", "Technology", 5)
+
+        result = str(ebook)
+
+        assert "AI Fundamentals" in result
+        assert "EBook" in result
+
+
+    def test_ebook_inherits_book(self):
+        """EBook should inherit from Book."""
+
+        ebook = EBook("AI Fundamentals", "Sarah Lee", "Technology", 5)
+
+        assert isinstance(ebook, Book)
+
+# -----------------------------
+# PrintedBook class tests
+# -----------------------------
+
+class TestPrintedBook:
+
+    def test_create_printed_book(self):
+        """Test creating a printed book."""
+
+        book = PrintedBook("World History", "Mark Johnson", "History", 400)
+
+        assert book.title == "World History"
+        assert book.pages == 400
+
+
+    def test_printed_book_string_output(self):
+        """Test printed book string representation."""
+
+        book = PrintedBook("World History", "Mark Johnson", "History", 400)
+
+        result = str(book)
+
+        assert "World History" in result
+        assert "pages" in result
+
+
+    def test_printed_book_inherits_book(self):
+        """PrintedBook should inherit from Book."""
+
+        book = PrintedBook("World History", "Mark Johnson", "History", 400)
+
+        assert isinstance(book, Book)
