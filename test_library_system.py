@@ -194,3 +194,53 @@ class TestMember:
 
         assert book.borrowed is False
         assert book not in member.borrowed_books
+
+# -----------------------------
+# Library class tests
+# -----------------------------
+
+class TestLibrary:
+
+    def test_add_book(self):
+        """Library should store books."""
+
+        library = Library()
+        book = Book("Python Basics", "John Smith", "Technology")
+
+        library.add_book(book)
+
+        assert book in library.books
+
+
+    def test_register_member(self):
+        """Library should store members."""
+
+        library = Library()
+        member = Member("Alice", "alice@email.com")
+
+        library.register_member(member)
+
+        assert member in library.members
+
+
+    def test_find_book(self):
+        """Library should find books by title."""
+
+        library = Library()
+        book = Book("Python Basics", "John Smith", "Technology")
+
+        library.add_book(book)
+
+        found = library.find_book("Python Basics")
+
+        assert found == book
+
+
+    def test_find_missing_book(self):
+        """Searching for missing book should return None."""
+
+        library = Library()
+
+        result = library.find_book("Unknown Book")
+
+        assert result is None
