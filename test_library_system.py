@@ -244,3 +244,34 @@ class TestLibrary:
         result = library.find_book("Unknown Book")
 
         assert result is None
+
+# -----------------------------
+# CSV file saving tests
+# -----------------------------
+
+class TestCSVSave:
+
+    def test_save_books(self):
+        """Books should be saved to CSV."""
+
+        library = Library()
+
+        book = Book("Python Basics", "John Smith", "Technology")
+        library.add_book(book)
+
+        save_books(library)
+
+        assert os.path.exists("books.csv")
+
+
+    def test_save_members(self):
+        """Members should be saved to CSV."""
+
+        library = Library()
+
+        member = Member("Alice", "alice@email.com")
+        library.register_member(member)
+
+        save_members(library)
+
+        assert os.path.exists("members.csv")
