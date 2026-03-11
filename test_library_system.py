@@ -295,3 +295,41 @@ class TestCSVLoad:
         load_members(new_library)
 
         assert len(new_library.members) > 0
+
+# -----------------------------
+# Edge case tests
+# -----------------------------
+
+class TestEdgeCases:
+
+    def test_duplicate_books(self):
+        """Library should allow multiple books but store them separately."""
+
+        library = Library()
+
+        book1 = Book("Python Basics", "John Smith", "Technology")
+        book2 = Book("Python Basics", "John Smith", "Technology")
+
+        library.add_book(book1)
+        library.add_book(book2)
+
+        assert len(library.books) == 2
+
+    def test_borrow_already_borrowed_book(self):
+        """Borrowing an already borrowed book should keep borrowed=True."""
+
+        book = Book("Python Basics", "John Smith", "Technology")
+
+        book.borrow()
+        book.borrow()
+
+        assert book.borrowed is True
+
+    def test_return_not_borrowed_book(self):
+        """Returning a book not borrowed should not crash."""
+
+        book = Book("Python Basics", "John Smith", "Technology")
+
+        book.return_book()
+
+        assert book.borrowed is False
