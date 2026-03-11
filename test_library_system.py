@@ -41,25 +41,21 @@ class TestBook:
         assert book.genre == "Technology"
         assert book.borrowed is False
 
-
     def test_book_str(self):
 
         book = Book("Python Basics", "John Smith", "Technology")
 
         assert str(book) == "Python Basics by John Smith (Technology) - Available"
 
-
     def test_missing_title(self):
 
         with pytest.raises(ValueError):
             Book("", "John Smith", "Technology")
 
-
     def test_invalid_genre(self):
 
         with pytest.raises(ValueError):
             Book("Book", "Author", "Cooking")
-
 
     def test_borrow_book(self):
 
@@ -68,7 +64,6 @@ class TestBook:
         book.borrow()
 
         assert book.borrowed is True 
-
 
     def test_return_book(self):
 
@@ -96,7 +91,6 @@ class TestEBook:
         assert ebook.file_size == 5
         assert ebook.borrowed is False
 
-
     def test_ebook_string_output(self):
         """Test ebook string representation."""
 
@@ -106,7 +100,6 @@ class TestEBook:
 
         assert "AI Fundamentals" in result
         assert "EBook" in result
-
 
     def test_ebook_inherits_book(self):
         """EBook should inherit from Book."""
@@ -129,7 +122,6 @@ class TestPrintedBook:
         assert book.title == "World History"
         assert book.pages == 400
 
-
     def test_printed_book_string_output(self):
         """Test printed book string representation."""
 
@@ -139,7 +131,6 @@ class TestPrintedBook:
 
         assert "World History" in result
         assert "pages" in result
-
 
     def test_printed_book_inherits_book(self):
         """PrintedBook should inherit from Book."""
@@ -163,13 +154,11 @@ class TestMember:
         assert member.email == "alice@email.com"
         assert member.borrowed_books == []
 
-
     def test_invalid_email(self):
         """Invalid email should raise ValueError."""
 
         with pytest.raises(ValueError):
             Member("Bob", "invalid-email")
-
 
     def test_borrow_book(self):
         """Member should be able to borrow a book."""
@@ -181,7 +170,6 @@ class TestMember:
 
         assert book.borrowed is True
         assert book in member.borrowed_books
-
 
     def test_return_book(self):
         """Member should be able to return a borrowed book."""
@@ -211,7 +199,6 @@ class TestLibrary:
 
         assert book in library.books
 
-
     def test_register_member(self):
         """Library should store members."""
 
@@ -221,7 +208,6 @@ class TestLibrary:
         library.register_member(member)
 
         assert member in library.members
-
 
     def test_find_book(self):
         """Library should find books by title."""
@@ -234,7 +220,6 @@ class TestLibrary:
         found = library.find_book("Python Basics")
 
         assert found == book
-
 
     def test_find_missing_book(self):
         """Searching for missing book should return None."""
@@ -263,7 +248,6 @@ class TestCSVSave:
 
         assert os.path.exists("books.csv")
 
-
     def test_save_members(self):
         """Members should be saved to CSV."""
 
@@ -275,3 +259,39 @@ class TestCSVSave:
         save_members(library)
 
         assert os.path.exists("members.csv")
+
+# -----------------------------
+# CSV file loading tests
+# -----------------------------
+
+class TestCSVLoad:
+
+    def test_load_books(self):
+
+        library = Library()
+
+        book = Book("Python Basics", "John Smith", "Technology")
+        library.add_book(book)
+
+        save_books(library)
+
+        new_library = Library()
+
+        load_books(new_library)
+
+        assert len(new_library.books) > 0
+
+    def test_load_members(self):
+
+        library = Library()
+
+        member = Member("Alice", "alice@email.com")
+        library.register_member(member)
+
+        save_members(library)
+
+        new_library = Library()
+
+        load_members(new_library)
+
+        assert len(new_library.members) > 0
